@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stromboard — Session</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="features.css">
+    <link rel="stylesheet" href="session-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="session-page">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1><i class="fas fa-chalkboard"></i> Stromboard</h1>
+        </div>
+        <div class="session-info-header">
+            <div class="room-details">
+                <h2 id="session-name">Loading...</h2>
+                <p>Room ID: <span id="room-id">Loading...</span></p>
+            </div>
+            <div class="session-header-actions">
+                <button id="copy-room-id" class="btn-icon" title="Copy Room ID">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button id="share-session" class="btn-icon" title="Share">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="workspace">
+        <!-- Left Sidebar Tools -->
+        <div class="tools-sidebar">
+            <div class="tool-section drawing-tools">
+                <button id="select" class="tool-btn" title="Select">
+                    <i class="fas fa-mouse-pointer"></i>
+                </button>
+                <button id="pen" class="tool-btn active" title="Pen">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button id="highlighter" class="tool-btn" title="Highlighter">
+                    <i class="fas fa-highlighter"></i>
+                </button>
+                <button id="eraser" class="tool-btn" title="Eraser">
+                    <i class="fas fa-eraser"></i>
+                </button>
+            </div>
+
+            <div class="tool-section insert-tools">
+                <button id="text" class="tool-btn" title="Add Text">
+                    <i class="fas fa-font"></i>
+                </button>
+                <button id="sticky" class="tool-btn" title="Sticky Note">
+                    <i class="fas fa-sticky-note"></i>
+                </button>
+                <button id="emoji" class="tool-btn" title="Add Emoji">
+                    <i class="far fa-smile"></i>
+                </button>
+                <button id="image" class="tool-btn" title="Add Image">
+                    <i class="fas fa-image"></i>
+                </button>
+            </div>
+
+            <div class="tool-section shape-tools">
+                <button id="rectangle" class="tool-btn" title="Rectangle">
+                    <i class="far fa-square"></i>
+                </button>
+                <button id="circle" class="tool-btn" title="Circle">
+                    <i class="far fa-circle"></i>
+                </button>
+                <button id="line" class="tool-btn" title="Line">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button id="arrow" class="tool-btn" title="Arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </button>
+            </div>
+
+            <div class="tool-section color-tools">
+                <div class="color-picker-wrapper" title="Color">
+                    <input type="color" id="color-picker" value="#000000">
+                    <div class="color-preview"></div>
+                </div>
+                <div class="color-presets">
+                    <button class="color-preset" style="background: #FF0000" data-color="#FF0000"></button>
+                    <button class="color-preset" style="background: #00FF00" data-color="#00FF00"></button>
+                    <button class="color-preset" style="background: #0000FF" data-color="#0000FF"></button>
+                </div>
+            </div>
+
+            <div class="tool-section history-tools">
+                <button id="undo" class="tool-btn" title="Undo">
+                    <i class="fas fa-undo"></i>
+                </button>
+                <button id="redo" class="tool-btn" title="Redo">
+                    <i class="fas fa-redo"></i>
+                </button>
+                <button id="clear" class="tool-btn" title="Clear Canvas">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Emoji Picker Panel -->
+        <div id="emoji-picker" class="emoji-picker hidden">
+            <div class="emoji-categories">
+                <button class="emoji-category active" data-category="smileys">😀</button>
+                <button class="emoji-category" data-category="gestures">👋</button>
+                <button class="emoji-category" data-category="objects">💡</button>
+                <button class="emoji-category" data-category="symbols">❤️</button>
+            </div>
+            <div class="emoji-list">
+                <!-- Common emojis -->
+                <button class="emoji-item">😀</button>
+                <button class="emoji-item">😊</button>
+                <button class="emoji-item">👍</button>
+                <button class="emoji-item">❤️</button>
+                <button class="emoji-item">🎉</button>
+                <button class="emoji-item">✨</button>
+                <button class="emoji-item">💡</button>
+                <button class="emoji-item">⭐</button>
+                <!-- More emojis will be added dynamically -->
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="whiteboard"></canvas>
+            <div class="active-users-container">
+                <div class="active-users-header" style="background: white; padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--primary-color); display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-users"></i> Active Users
+                    </strong>
+                </div>
+                <!-- Active users will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="collaboration-footer">
+            <div class="user-cursor-info">
+                <!-- Real-time cursor positions will be shown here -->
+            </div>
+            <div class="session-controls">
+                <button id="invite-users" class="btn-secondary">
+                    <i class="fas fa-user-plus"></i> Invite Users
+                </button>
+                <button id="leave-session" class="btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Leave Session
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="session.js"></script>
+    <script src="whiteboard.js"></script>
+</body>
+</html>
